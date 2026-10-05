@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purpldine - Discover the Best Food & Dining</title>
+  <meta name="description" content="Find the best restaurants, cafes, and bars in your city. Order food online or book a table with Purpldine.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" href="images/image-1.png">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       HERO BANNER SECTION (ZOMATO STYLE WITH PURPLE THEME & VIDEO BG)
+       ========================================================================= -->
+  <header class="hero-wrapper">
+    <!-- Ambient Video / High-Res Background -->
+    <div class="hero-bg-container">
+      <video class="hero-video-bg" id="hero-main-video" autoplay muted loop playsinline poster="images/image-1.png">
+        <source id="hero-video-source" src="images/v/5821374-hd_1920_1080_30fps.mp4" type="video/mp4">
+      </video>
+      <div class="hero-overlay"></div>
+    </div>
+
+    <!-- Hero Video Controls -->
+    <div class="hero-video-controls">
+      <div class="video-pill-group">
+        <button class="video-pill active" onclick="switchHeroVideo(0)" title="Kitchen Sizzle Video"></button>
+        <button class="video-pill" onclick="switchHeroVideo(1)" title="Artisan Pizza Video"></button>
+        <button class="video-pill" onclick="switchHeroVideo(2)" title="Rooftop Sunset Video"></button>
+      </div>
+      <button class="hero-video-btn" id="hero-audio-btn" onclick="toggleHeroAudio()">
+        <i class="fas fa-volume-mute"></i> <span>Muted</span>
+      </button>
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <nav class="hero-nav">
+      <div class="hero-nav-left">
+        <a href="#app-section">
+          <i class="fas fa-mobile-screen-button"></i>
+          <span>Get the App</span>
+        </a>
+      </div>
+      <div class="hamburger-menu" onclick="document.getElementById('nav-right').classList.add('active')">
+        <i class="fas fa-bars"></i>
+      </div>
+      <div class="hero-nav-right" id="nav-right">
+        <button class="close-sidebar-btn" onclick="document.getElementById('nav-right').classList.remove('active')">
+          <i class="fas fa-times"></i>
+        </button>
+        <a href="#investors-section" class="hero-nav-link hide-mobile">Investor Relations</a>
+        <a href="#add-restaurant-section" class="hero-nav-link hide-mobile">Add restaurant</a>
+        <button class="nav-btn-outline" onclick="openAuthModal('login')" id="nav-auth-btn">Log in</button>
+        <button class="nav-btn-outline" onclick="openAuthModal('signup')">Sign up</button>
+        <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle Purple Dark Mode">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Center Hero Content -->
+    <div class="hero-content">
+      <h1 class="brand-logo" style="display: flex; align-items: center; justify-content: center; gap: 16px;">
+        <img src="favicon.svg" alt="Purpldine Logo" style="height: 64px; filter: drop-shadow(0 4px 10px rgba(168, 85, 247, 0.4));">
+        <span>purpldine<span class="dot">.</span></span>
+      </h1>
+      <p class="hero-tagline">
+        Discover the best food & drinks in <span id="hero-city-name" class="highlight-city">Delhi NCR</span>
+      </p>
+
+      <!-- Dual Search Component (Location Selector + Restaurant/Dish Search) -->
+      <div class="search-container">
+        <div class="search-bar">
+          
+          <!-- Location Picker -->
+          <div class="location-picker" id="location-picker">
+            <i class="fas fa-map-marker-alt loc-icon"></i>
+            <div class="loc-text">
+              <span class="loc-city" id="picker-city-name">Delhi NCR</span>
+              <span class="loc-state">India</span>
+            </div>
+            <i class="fas fa-caret-down loc-arrow"></i>
+
+            <!-- City Dropdown Modal -->
+            <div class="city-dropdown" id="city-dropdown"></div>
+          </div>
+
+          <!-- Dish / Restaurant Search Input -->
+          <div class="search-input-box">
+            <i class="fas fa-search search-icon"></i>
+            <input 
+              type="text" 
+              id="main-search-input" 
+              class="search-input" 
+              placeholder="Search for restaurant, cuisine or a dish..."
+              autocomplete="off"
+            >
+            <button class="search-clear-btn" id="search-clear-btn">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Search Autocomplete Results -->
+        <div class="search-suggestions" id="search-suggestions"></div>
+      </div>
+    </div>
+
+    <div></div> <!-- Spacer for flex distribution -->
+  </header>
+
+  <!-- =========================================================================
+       THE 3 BIG FEATURE CARDS (ORDER ONLINE, DINING OUT, NIGHTLIFE)
+       ========================================================================= -->
+  <main class="container">
+    <section class="features-section">
+      <div class="features-grid">
+        
+        <!-- Feature 1: Order Online -->
+        <div class="feature-card active" data-mode="delivery">
+          <div class="feature-img-box">
+            <img src="images/image-6.png" alt="Order Online" class="feature-img">
+            <span class="feature-badge">FREE DELIVERY</span>
+          </div>
+          <div class="feature-body">
+            <h2 class="feature-title">Order Online</h2>
+            <p class="feature-desc">Stay home and order to your doorstep</p>
+          </div>
+        </div>
+
+        <!-- Feature 2: Dining Out -->
+        <div class="feature-card" data-mode="dining">
+          <div class="feature-img-box">
+            <img src="images/image-1.png" alt="Dining Out" class="feature-img">
+            <span class="feature-badge">UP TO 50% OFF</span>
+          </div>
+          <div class="feature-body">
+            <h2 class="feature-title">Dining Out</h2>
+            <p class="feature-desc">Explore the city's top dining venues & cafes</p>
+          </div>
+        </div>
+
+        <!-- Feature 3: Nightlife & Clubs -->
+        <div class="feature-card" data-mode="nightlife">
+          <div class="feature-img-box">
+            <img src="images/image-2.png" alt="Nightlife & Clubs" class="feature-img">
+            <span class="feature-badge">VIP PASS</span>
+          </div>
+          <div class="feature-body">
+            <h2 class="feature-title">Nightlife & Clubs</h2>
+            <p class="feature-desc">Catch the best events, parties & gigs</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================================
+       STICKY SUB-NAVIGATION TABS
+       ========================================================================= -->
+  <div class="sticky-tabs-wrapper">
+    <div class="container">
+      <div class="sticky-tabs">
+        <button class="tab-btn active" data-tab="delivery">
+          <div class="tab-icon-wrap"><i class="fas fa-motorcycle"></i></div>
+          <span>Delivery</span>
+        </button>
+        <button class="tab-btn" data-tab="dining">
+          <div class="tab-icon-wrap"><i class="fas fa-utensils"></i></div>
+          <span>Dining Out</span>
+        </button>
+        <button class="tab-btn" data-tab="nightlife">
+          <div class="tab-icon-wrap"><i class="fas fa-cocktail"></i></div>
+          <span>Nightlife</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- =========================================================================
+         PURPLDINE LIVE DINING STORIES & CHEF REELS (VIDEOS)
+         ========================================================================= -->
+    <section class="video-stories-section">
+      <div class="section-header-flex">
+        <div>
+          <h2 class="section-title">
+            <span style="color:var(--primary);"><i class="fas fa-play-circle"></i> Live</span> Dining Reels & Chef Stories
+          </h2>
+          <p class="section-subtitle">
+            Watch real-time sizzles, handcrafted pizzas, and rooftop mixology straight from the top kitchens in <span class="dynamic-city-text">Delhi NCR</span>
+          </p>
+        </div>
+        <span class="story-badge" style="background:var(--primary-light); color:var(--primary); padding:6px 14px; font-size:0.85rem;">
+          <span class="story-live-dot"></span> 3 LIVE SPOTLIGHTS
+        </span>
+      </div>
+
+      <div class="stories-grid" id="stories-grid">
+        <!-- Story 1: Wok Sizzle -->
+        <div class="story-card" onclick="openVideoTheater(0)">
+          <video class="story-video-preview" autoplay muted loop playsinline poster="images/image-2.png">
+            <source src="images/v/12254141_3840_2160_24fps.mp4" type="video/mp4">
+          </video>
+          <div class="story-overlay">
+            <div class="story-header">
+              <span class="story-badge"><span class="story-live-dot"></span> Chef Spotlight</span>
+              <span class="story-views"><i class="fas fa-eye"></i> 142.8k</span>
+            </div>
+            <div class="story-play-btn"><i class="fas fa-play"></i></div>
+            <div class="story-footer">
+              <div class="story-rest-name">Neon Velvet Lounge</div>
+              <h3 class="story-title">Flaming Wok & Live Sizzler Masterclass</h3>
+              <div class="story-tags">
+                <span>#LiveKitchen</span>
+                <span>#AsianTapas</span>
+                <span>#Nightlife</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Story 2: Handcrafted Pizza -->
+        <div class="story-card" onclick="openVideoTheater(1)">
+          <video class="story-video-preview" autoplay muted loop playsinline poster="images/image-7.png">
+            <source src="images/v/5821374-hd_1920_1080_30fps.mp4" type="video/mp4">
+          </video>
+          <div class="story-overlay">
+            <div class="story-header">
+              <span class="story-badge"><span class="story-live-dot"></span> Artisan Kitchen</span>
+              <span class="story-views"><i class="fas fa-eye"></i> 98.4k</span>
+            </div>
+            <div class="story-play-btn"><i class="fas fa-play"></i></div>
+            <div class="story-footer">
+              <div class="story-rest-name">Artisan Crust Pizza Co.</div>
+              <h3 class="story-title">48-Hour Fermented Wood-Fired Sourdough</h3>
+              <div class="story-tags">
+                <span>#WoodFired</span>
+                <span>#Neapolitan</span>
+                <span>#CheesePull</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Story 3: Rooftop Mixology -->
+        <div class="story-card" onclick="openVideoTheater(2)">
+          <video class="story-video-preview" autoplay muted loop playsinline poster="images/image-1.png">
+            <source src="images/v/6327104-uhd_3840_2160_25fps.mp4" type="video/mp4">
+          </video>
+          <div class="story-overlay">
+            <div class="story-header">
+              <span class="story-badge"><span class="story-live-dot"></span> Sunset Experience</span>
+              <span class="story-views"><i class="fas fa-eye"></i> 215.1k</span>
+            </div>
+            <div class="story-play-btn"><i class="fas fa-play"></i></div>
+            <div class="story-footer">
+              <div class="story-rest-name">The Purple Bistro & Bar</div>
+              <h3 class="story-title">Sunset Golden Hour & Purple Smoke Cocktails</h3>
+              <div class="story-tags">
+                <span>#RooftopDining</span>
+                <span>#CraftCocktails</span>
+                <span>#Vibes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         CURATED COLLECTIONS SECTION
+         ========================================================================= -->
+    <section class="collections-section">
+      <div class="section-header-flex">
+        <div>
+          <h2 class="section-title">Collections</h2>
+          <p class="section-subtitle">
+            Explore curated lists of top restaurants, cafes, pubs, and bars in <span class="dynamic-city-text">Delhi NCR</span>, based on trends
+          </p>
+        </div>
+        <a href="#collections" class="section-link" onclick="showToast('Showing all 40+ curated collections')">
+          All collections in <span class="dynamic-city-text">Delhi NCR</span>
+          <i class="fas fa-caret-right"></i>
+        </a>
+      </div>
+
+      <div class="collections-grid" id="collections-grid"></div>
+    </section>
+
+    <!-- =========================================================================
+         EXACT EDITORIAL GUIDES SECTION (FROM USER IMAGE REFERENCE)
+         ========================================================================= -->
+    <section class="editorial-guides-section">
+      <!-- Top Accent Bar -->
+      <div class="editorial-accent-bar"></div>
+
+      <!-- Main Featured Split Hero -->
+      <div class="editorial-hero-split" onclick="filterByEditorial('25 Trendy Restaurants You Can Get Into')">
+        <div class="editorial-img-box">
+          <img src="images/image-22.png" alt="Trendy Dining Feast" class="editorial-hero-img" onerror="this.src='images/image-1.png'">
+        </div>
+        <div class="editorial-hero-content">
+          <h2 class="editorial-hero-title">25 Trendy Restaurants You Can Get Into</h2>
+          <p class="editorial-hero-desc">
+            If you're looking for an impressive place to get a table when you didn't plan weeks in advance, here are some great options.
+          </p>
+          <div class="editorial-read-btn">
+            <span>Explore Curated Guide</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom 4 Editorial Cards Row -->
+      <div class="editorial-cards-grid">
+        
+        <!-- Card 1 -->
+        <div class="editorial-sub-card" onclick="filterByEditorial('The Most Fun Dinner Spots')">
+          <div class="editorial-sub-thumb-box">
+            <img src="images/image-23.png" alt="Fun Dinner Spots" class="editorial-sub-thumb" onerror="this.src='images/image-6.png'">
+          </div>
+          <h3 class="editorial-sub-title">The Most Fun Dinner Spots In The City</h3>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="editorial-sub-card" onclick="filterByEditorial('The Best Black & White Desserts')">
+          <div class="editorial-sub-thumb-box">
+            <img src="images/image-14.png" alt="Black & White Desserts" class="editorial-sub-thumb" onerror="this.src='images/image-14.png'">
+          </div>
+          <h3 class="editorial-sub-title">The Best Black & White Cookies & Bakeries</h3>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="editorial-sub-card" onclick="filterByEditorial('The City Dive Bar Directory')">
+          <div class="editorial-sub-thumb-box">
+            <img src="images/image-2.png" alt="City Dive Bar" class="editorial-sub-thumb" onerror="this.src='images/image-2.png'">
+          </div>
+          <h3 class="editorial-sub-title">The Essential Dive Bar & Pub Directory</h3>
+        </div>
+
+        <!-- Card 4 (With Rating Badge 8.0) -->
+        <div class="editorial-sub-card" onclick="filterByEditorial('Café Kestrel & Top Artisan Roasters')">
+          <div class="editorial-sub-thumb-box">
+            <img src="images/image-4.png" alt="Café Kestrel" class="editorial-sub-thumb" onerror="this.src='images/image-4.png'">
+            <span class="editorial-rating-pill">8.0</span>
+          </div>
+          <h3 class="editorial-sub-title">Café Kestrel & Artisan Coffee Reviews</h3>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         THE LATEST & FOOD CULTURE MAGAZINE (3-COLUMN EXACT REFERENCE LAYOUT)
+         ========================================================================= -->
+    <section class="magazine-news-section">
+      <div class="magazine-grid">
+        
+        <!-- Column 1: The Latest Feed -->
+        <div class="mag-left-col">
+          <h2 class="mag-col-heading">The Latest</h2>
+          <div class="mag-latest-list">
+            
+            <div class="mag-latest-item" onclick="showToast('Reading: Maximalist Tableside Duck Service')">
+              <div class="mag-meta-row">
+                <span class="mag-date">OCT 3</span>
+                <span class="mag-tag-pill">PURPLDINE SF</span>
+              </div>
+              <h3 class="mag-latest-title">Maximalist Tableside Duck Service Is the Signature at the Peninsula's Old Post Office</h3>
+            </div>
+
+            <div class="mag-latest-item" onclick="showToast('Reading: Best New Restaurants October 2026')">
+              <div class="mag-meta-row">
+                <span class="mag-date">OCT 3</span>
+                <span class="mag-tag-pill">PURPLDINE DC</span>
+              </div>
+              <h3 class="mag-latest-title">The Best New Restaurants Around D.C., October 2026</h3>
+            </div>
+
+            <div class="mag-latest-item" onclick="showToast('Reading: Josephine Neighborhood Bistro')">
+              <div class="mag-meta-row">
+                <span class="mag-date">OCT 3</span>
+                <span class="mag-tag-pill">PURPLDINE LA</span>
+              </div>
+              <h3 class="mag-latest-title">Josephine Is Silver Lake's Most Irresistible Neighborhood Bistro</h3>
+            </div>
+
+            <div class="mag-latest-item" onclick="showToast('Reading: Waffle House Feature')">
+              <div class="mag-meta-row">
+                <span class="mag-date">OCT 3</span>
+                <span class="mag-tag-pill">PURPLDINE LA</span>
+              </div>
+              <h3 class="mag-latest-title">Y'all, Waffle House Is Never Coming to Los Angeles</h3>
+            </div>
+
+            <div class="mag-latest-item" onclick="showToast('Reading: Roman Pizza East Village')">
+              <div class="mag-meta-row">
+                <span class="mag-date">OCT 2</span>
+                <span class="mag-tag-pill">PURPLDINE NY</span>
+              </div>
+              <h3 class="mag-latest-title">A Roman Pizza Place Calls It Quits in the East Village</h3>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Column 2: Center Featured Bordered Box -->
+        <div class="mag-center-box" onclick="openVideoTheater(0)">
+          <div class="mag-reels-split">
+            
+            <!-- Left Reel -->
+            <div class="mag-reel-item">
+              <video class="mag-reel-video" autoplay muted loop playsinline poster="images/image-1.png">
+                <source src="images/v/5821374-hd_1920_1080_30fps.mp4" type="video/mp4">
+              </video>
+              <div class="mag-caption-overlay">
+                our new store in providence ri... is way behind schedule 👀
+              </div>
+              <div class="mag-reel-views"><i class="fas fa-eye"></i> 215K</div>
+            </div>
+
+            <!-- Right Reel -->
+            <div class="mag-reel-item">
+              <video class="mag-reel-video" autoplay muted loop playsinline poster="images/image-2.png">
+                <source src="images/v/12254141_3840_2160_24fps.mp4" type="video/mp4">
+              </video>
+              <div class="mag-caption-overlay">
+                we're opening up a new nitro bar! let's show you around 👀
+              </div>
+              <div class="mag-reel-views"><i class="fas fa-eye"></i> 192K</div>
+            </div>
+
+          </div>
+
+          <div class="mag-center-content">
+            <span class="mag-category-badge">DINING OUT</span>
+            <h2 class="mag-featured-title">
+              The Hottest New Food Show Is a &lsquo;Making the Restaurant&rsquo; Series
+            </h2>
+            <p class="mag-featured-desc">
+              For some operators, the secret to virality is bringing future customers behind the scenes &mdash; before even opening.
+            </p>
+            <span class="mag-byline">By BETTINA MAKALINTAL</span>
+          </div>
+        </div>
+
+        <!-- Column 3: Right 2 Featured Stories -->
+        <div class="mag-right-col">
+          
+          <div class="mag-story-card" onclick="filterByEditorial('Food Party of the Year')">
+            <div class="mag-story-thumb-wrap">
+              <img src="images/image-24.png" alt="Food Party" class="mag-story-thumb" onerror="this.src='images/image-1.png'">
+            </div>
+            <span class="mag-category-badge" style="margin-bottom:2px;">DINING OUT</span>
+            <h3 class="mag-story-title">Here's Everything You Missed at the Food Party of the Year</h3>
+            <span class="mag-byline">By HILARY POLLACK</span>
+          </div>
+
+          <div class="mag-story-card" onclick="filterByEditorial('3 Days in Sifnos')">
+            <div class="mag-story-thumb-wrap">
+              <img src="images/image-25.png" alt="Greek Itinerary" class="mag-story-thumb" onerror="this.src='images/image-22.png'">
+            </div>
+            <span class="mag-category-badge" style="margin-bottom:2px;">DINING OUT</span>
+            <h3 class="mag-story-title">Steal My Food Itinerary: 3 Days in Sifnos, Greece</h3>
+            <span class="mag-byline">By NAT BELKOV</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         INSPIRATION FOR YOUR FIRST ORDER (ROUND FOOD CAROUSEL)
+         ========================================================================= -->
+    <section class="food-carousel-section">
+      <h2 class="section-title" style="padding: 0 20px;">Inspiration for your first order</h2>
+      <div class="carousel-scroll-wrap">
+        <button class="carousel-nav-btn prev" id="carousel-prev-btn"><i class="fas fa-chevron-left"></i></button>
+        <div class="food-carousel" id="food-carousel"></div>
+        <button class="carousel-nav-btn next" id="carousel-next-btn"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         TOP BRANDS FOR YOU
+         ========================================================================= -->
+    <section class="brands-section">
+      <h2 class="section-title">Top brands for you</h2>
+      <div class="brands-grid" id="brands-grid"></div>
+    </section>
+
+    <!-- =========================================================================
+         FILTER BAR & RESTAURANT LISTINGS
+         ========================================================================= -->
+    <div id="restaurant-list-section" style="padding-top: 10px;">
+      
+      <!-- Filter Sticky Bar -->
+      <div class="filter-sticky-bar">
+        <div class="filter-pills-wrap">
+          
+          <button class="filter-pill" data-filter="rating4Plus">
+            <i class="fas fa-star" style="color:var(--gold-star);"></i>
+            <span>Rating: 4.0+</span>
+          </button>
+
+          <button class="filter-pill" data-filter="pureVeg">
+            <span class="veg-icon" style="color:var(--veg-green); width:12px; height:12px;"></span>
+            <span>Pure Veg</span>
+          </button>
+
+          <button class="filter-pill" data-filter="fastDelivery">
+            <i class="fas fa-bolt" style="color:var(--primary);"></i>
+            <span>Fast Delivery (&le;25 mins)</span>
+          </button>
+
+          <button class="filter-pill" data-filter="offersOnly">
+            <i class="fas fa-tags" style="color:var(--primary);"></i>
+            <span>Great Offers</span>
+          </button>
+
+          <!-- Sort Selector -->
+          <select id="sort-filter-select" class="filter-select">
+            <option value="popularity">Sort by: Popularity</option>
+            <option value="rating">Rating: High to Low</option>
+            <option value="deliveryTime">Delivery Time</option>
+            <option value="costLowToHigh">Cost: Low to High</option>
+            <option value="costHighToLow">Cost: High to Low</option>
+          </select>
+
+          <span class="filter-count-badge" id="results-count-badge">9 restaurants available</span>
+        </div>
+      </div>
+
+      <!-- Restaurant Cards Grid -->
+      <div class="restaurant-grid" id="restaurant-grid"></div>
+    </div>
+
+    <!-- =========================================================================
+         POPULAR LOCALITIES IN AND AROUND CITY
+         ========================================================================= -->
+    <section class="localities-section">
+      <h2 class="section-title">
+        Popular localities in and around <span class="dynamic-city-text">Delhi NCR</span>
+      </h2>
+      <div class="localities-grid" id="localities-grid"></div>
+    </section>
+
+  </div> <!-- End Container -->
+
+  <!-- =========================================================================
+       GET THE PURPLDINE APP PROMO SECTION
+       ========================================================================= -->
+  <section class="app-promo-section" id="app-section">
+    <div class="container">
+      <div class="app-promo-wrapper">
+        
+        <div class="app-phone-mockup">
+          <img src="images/image-1.png" alt="Purpldine Mobile App Interface">
+        </div>
+
+        <div class="app-promo-content">
+          <h2 class="app-promo-title">Get the Purpldine app</h2>
+          <p class="app-promo-desc">
+            We will send you a link, open it on your phone to download the app & enjoy exclusive purple discounts.
+          </p>
+
+          <form id="app-share-form">
+            <div class="app-radio-group">
+              <label class="app-radio-label">
+                <input type="radio" name="contact-type" value="email" checked>
+                <span>Email</span>
+              </label>
+              <label class="app-radio-label">
+                <input type="radio" name="contact-type" value="phone">
+                <span>Phone</span>
+              </label>
+            </div>
+
+            <div class="app-input-row">
+              <input type="text" id="app-contact-input" class="app-input" placeholder="Enter your email address" required>
+              <button type="submit" class="app-share-btn">Share App Link</button>
+            </div>
+          </form>
+
+          <div class="app-badges-title">Download app from</div>
+          <div class="app-badges-row">
+            <button class="nav-btn-outline" style="background:#111; color:#fff; display:flex; align-items:center; gap:8px;" onclick="showToast('Redirecting to Google Play Store')">
+              <i class="fab fa-google-play"></i> Google Play
+            </button>
+            <button class="nav-btn-outline" style="background:#111; color:#fff; display:flex; align-items:center; gap:8px;" onclick="showToast('Redirecting to Apple App Store')">
+              <i class="fab fa-apple"></i> App Store
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       EXPLORE OPTIONS NEAR ME (ACCORDIONS)
+       ========================================================================= -->
+  <section class="accordion-section container">
+    <h2 class="section-title" style="margin-bottom: 24px;">Explore options near me</h2>
+
+    <!-- Accordion 1: Cuisines -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span>Popular cuisines near me</span>
+        <i class="fas fa-chevron-down accordion-icon"></i>
+      </div>
+      <div class="accordion-body">
+        <div class="tag-cloud">
+          <span class="cloud-tag">Bakery food near me</span>
+          <span class="cloud-tag">Beverages food near me</span>
+          <span class="cloud-tag">Biryani food near me</span>
+          <span class="cloud-tag">Burger food near me</span>
+          <span class="cloud-tag">Chinese food near me</span>
+          <span class="cloud-tag">Continental food near me</span>
+          <span class="cloud-tag">Desserts food near me</span>
+          <span class="cloud-tag">Italian food near me</span>
+          <span class="cloud-tag">Mughlai food near me</span>
+          <span class="cloud-tag">North Indian food near me</span>
+          <span class="cloud-tag">Pizza food near me</span>
+          <span class="cloud-tag">Rolls food near me</span>
+          <span class="cloud-tag">South Indian food near me</span>
+          <span class="cloud-tag">Street food near me</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accordion 2: Restaurant Types -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span>Popular restaurant types near me</span>
+        <i class="fas fa-chevron-down accordion-icon"></i>
+      </div>
+      <div class="accordion-body">
+        <div class="tag-cloud">
+          <span class="cloud-tag">Bakeries near me</span>
+          <span class="cloud-tag">Bars near me</span>
+          <span class="cloud-tag">Beverage Shops near me</span>
+          <span class="cloud-tag">Bistros near me</span>
+          <span class="cloud-tag">Cafés near me</span>
+          <span class="cloud-tag">Casual Dining near me</span>
+          <span class="cloud-tag">Clubs near me</span>
+          <span class="cloud-tag">Cocktail Bars near me</span>
+          <span class="cloud-tag">Dessert Parlors near me</span>
+          <span class="cloud-tag">Fine Dining near me</span>
+          <span class="cloud-tag">Food Courts near me</span>
+          <span class="cloud-tag">Lounges near me</span>
+          <span class="cloud-tag">Pubs near me</span>
+          <span class="cloud-tag">Quick Bites near me</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accordion 3: Top Restaurant Chains -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span>Top Restaurant Chains</span>
+        <i class="fas fa-chevron-down accordion-icon"></i>
+      </div>
+      <div class="accordion-body">
+        <div class="tag-cloud">
+          <span class="cloud-tag">Bikanervala</span>
+          <span class="cloud-tag">Biryani Blues</span>
+          <span class="cloud-tag">Burger King</span>
+          <span class="cloud-tag">Domino's</span>
+          <span class="cloud-tag">Dunkin'</span>
+          <span class="cloud-tag">Haldiram's</span>
+          <span class="cloud-tag">KFC</span>
+          <span class="cloud-tag">Krispy Kreme</span>
+          <span class="cloud-tag">McDonald's</span>
+          <span class="cloud-tag">Pizza Hut</span>
+          <span class="cloud-tag">SUBWAY</span>
+          <span class="cloud-tag">Starbucks</span>
+          <span class="cloud-tag">WOW! Momo</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accordion 4: Cities We Deliver To -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span>Cities We Deliver To</span>
+        <i class="fas fa-chevron-down accordion-icon"></i>
+      </div>
+      <div class="accordion-body">
+        <div class="tag-cloud">
+          <span class="cloud-tag" onclick="setCity('Delhi NCR')">Delhi NCR</span>
+          <span class="cloud-tag" onclick="setCity('Mumbai')">Mumbai</span>
+          <span class="cloud-tag" onclick="setCity('Bengaluru')">Bengaluru</span>
+          <span class="cloud-tag" onclick="setCity('Hyderabad')">Hyderabad</span>
+          <span class="cloud-tag" onclick="setCity('Chennai')">Chennai</span>
+          <span class="cloud-tag" onclick="setCity('Kolkata')">Kolkata</span>
+          <span class="cloud-tag" onclick="setCity('Pune')">Pune</span>
+          <span class="cloud-tag" onclick="setCity('Goa')">Goa</span>
+          <span class="cloud-tag" onclick="setCity('Dubai')">Dubai</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       PURPLDINE FOOTER (ZOMATO STYLE)
+       ========================================================================= -->
+  <footer class="footer-section">
+    <div class="container">
+      
+      <!-- Footer Top Row -->
+      <div class="footer-top-row">
+        <div class="footer-logo" style="display: flex; align-items: center; gap: 12px;">
+          <img src="favicon.svg" alt="Purpldine Logo" style="height: 42px;">
+          <span>purpldine<span class="dot">.</span></span>
+        </div>
+        <div class="footer-selectors">
+          <button class="footer-select-btn" onclick="showToast('Country settings available soon!')">
+            <i class="fas fa-globe"></i> India <i class="fas fa-chevron-down" style="font-size:0.75rem;"></i>
+          </button>
+          <button class="footer-select-btn" onclick="showToast('Language preferences available soon!')">
+            <i class="fas fa-language"></i> English <i class="fas fa-chevron-down" style="font-size:0.75rem;"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer Columns -->
+      <div class="footer-grid">
+        <div id="investors-section">
+          <h4 class="footer-col-title">About Purpldine</h4>
+          <ul class="footer-nav-list">
+            <li><a href="#about">Who We Are</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#work">Work With Us</a></li>
+            <li><a href="#investors">Investor Relations</a></li>
+            <li><a href="#report">Report Fraud</a></li>
+            <li><a href="#press">Press Kit</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Purpldineverse</h4>
+          <ul class="footer-nav-list">
+            <li><a href="#purpldine">Purpldine</a></li>
+            <li><a href="#blinkit">Blinkit</a></li>
+            <li><a href="#district">District</a></li>
+            <li><a href="#feeding">Feeding India</a></li>
+            <li><a href="#hyperlive">Hyperlive</a></li>
+            <li><a href="#weather">Purpldine Weather Union</a></li>
+          </ul>
+        </div>
+
+        <div id="add-restaurant-section">
+          <h4 class="footer-col-title">For Restaurants</h4>
+          <ul class="footer-nav-list">
+            <li><a href="#partner">Partner With Us</a></li>
+            <li><a href="#apps">Apps For You</a></li>
+          </ul>
+          <h4 class="footer-col-title" style="margin-top:20px;">For Enterprises</h4>
+          <ul class="footer-nav-list">
+            <li><a href="#enterprise">Purpldine For Work</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Learn More</h4>
+          <ul class="footer-nav-list">
+            <li><a href="#privacy">Privacy</a></li>
+            <li><a href="#security">Security</a></li>
+            <li><a href="#terms">Terms</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Social Links</h4>
+          <div class="footer-social-links">
+            <a href="#linkedin" class="footer-social-btn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#instagram" class="footer-social-btn"><i class="fab fa-instagram"></i></a>
+            <a href="#twitter" class="footer-social-btn"><i class="fab fa-x-twitter"></i></a>
+            <a href="#youtube" class="footer-social-btn"><i class="fab fa-youtube"></i></a>
+            <a href="#facebook" class="footer-social-btn"><i class="fab fa-facebook-f"></i></a>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <button class="nav-btn-outline" style="background:#1a0f33; font-size:0.8rem; display:flex; align-items:center; gap:8px;">
+              <i class="fab fa-apple"></i> App Store
+            </button>
+            <button class="nav-btn-outline" style="background:#1a0f33; font-size:0.8rem; display:flex; align-items:center; gap:8px;">
+              <i class="fab fa-google-play"></i> Google Play
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom-divider"></div>
+      
+      <p class="footer-bottom-text">
+        By continuing past this page, you agree to our Terms of Service, Cookie Policy, Privacy Policy and Content Policies. All trademarks are properties of their respective owners. 2008-2026 © Purpldine™ Media Pvt Ltd. All rights reserved.
+      </p>
+
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       MODALS & DRAWERS
+       ========================================================================= -->
+
+  <!-- RESTAURANT DETAIL & MENU MODAL -->
+  <div class="modal-backdrop" id="restaurant-detail-modal">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeRestaurantModal()"><i class="fas fa-times"></i></button>
+      
+      <div class="modal-rest-banner">
+        <img id="modal-rest-img" src="images/image-1.png" alt="Restaurant Banner">
+        <div class="modal-rest-banner-overlay">
+          <h2 id="modal-rest-name" style="font-size:2rem; font-weight:800; margin-bottom:4px;">The Purple Bistro</h2>
+          <p id="modal-rest-cuisines" style="font-size:0.95rem; opacity:0.9; margin-bottom:6px;">Continental, Italian, Craft Cocktails</p>
+          <p id="modal-rest-address" style="font-size:0.85rem; opacity:0.75;"><i class="fas fa-map-marker-alt"></i> Outer Circle, Connaught Place</p>
+        </div>
+      </div>
+
+      <div class="modal-rest-content">
+        <!-- Highlights Bar -->
+        <div style="display:flex; gap:20px; align-items:center; margin-bottom:20px; padding:12px; background:var(--bg-subtle); border-radius:var(--radius-md);">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="rest-rating-badge" id="modal-dining-rating">4.6 <i class="fas fa-star"></i></span>
+            <span style="font-size:0.85rem; color:var(--text-muted);">Dining Rating</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="rest-rating-badge" id="modal-delivery-rating" style="background:var(--primary);">4.5 <i class="fas fa-star"></i></span>
+            <span style="font-size:0.85rem; color:var(--text-muted);">Delivery Rating</span>
+          </div>
+          <div style="margin-left:auto; font-weight:600; color:var(--text-primary);" id="modal-cost">₹1,200 for two</div>
+        </div>
+
+        <!-- Modal Nav Tabs -->
+        <div class="modal-tabs">
+          <button class="modal-tab-btn active" data-tab="menu" onclick="switchModalTab('menu')">
+            <i class="fas fa-utensils"></i> Order Online
+          </button>
+          <button class="modal-tab-btn" data-tab="video" onclick="switchModalTab('video')">
+            <i class="fas fa-play-circle" style="color:var(--primary)"></i> Live Kitchen Video
+          </button>
+          <button class="modal-tab-btn" data-tab="book" onclick="switchModalTab('book')">
+            <i class="fas fa-calendar-check"></i> Book a Table
+          </button>
+          <button class="modal-tab-btn" data-tab="reviews" onclick="switchModalTab('reviews')">
+            <i class="fas fa-star-half-alt"></i> Reviews & Photos
+          </button>
+        </div>
+
+        <!-- Tab 1: Menu Items -->
+        <div id="modal-tab-menu" class="modal-tab-content">
+          <h3 class="menu-category-title">Recommended Gourmet Dishes</h3>
+          <div class="menu-items-list" id="modal-menu-items"></div>
+        </div>
+
+        <!-- Tab Video: Live Kitchen Experience -->
+        <div id="modal-tab-video" class="modal-tab-content" style="display:none;">
+          <div style="background:#0a0414; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--purple-700); margin-bottom:16px;">
+            <video id="modal-rest-video" class="theater-video-player" controls autoplay muted playsinline style="width:100%; height:360px; object-fit:cover;">
+              <source src="images/v/12254141_3840_2160_24fps.mp4" type="video/mp4">
+            </video>
+            <div style="padding:16px; background:#140a28; color:#fff; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <h4 style="font-size:1.1rem; font-weight:700; color:#f3e8ff;">Chef's Live Kitchen & Craftsmanship</h4>
+                <p style="font-size:0.85rem; color:var(--purple-300);">Filmed in 4K Ultra HD at Purpldine Certified Kitchen</p>
+              </div>
+              <button class="nav-btn-outline" style="background:var(--primary); color:#fff; border:none;" onclick="switchModalTab('menu')">
+                Order Dishes From Video
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Book Table -->
+        <div id="modal-tab-book" class="modal-tab-content" style="display:none;">
+          <form id="table-booking-form" class="table-booking-form">
+            <h3 style="font-size:1.3rem; font-weight:700; margin-bottom:16px; color:var(--text-primary);">Reserve a Table with Instant Confirmation</h3>
+            <div class="booking-form-grid">
+              <div class="form-group">
+                <label>Select Date</label>
+                <input type="date" id="book-date" class="form-input" value="2026-10-06" required>
+              </div>
+              <div class="form-group">
+                <label>Select Time Slot</label>
+                <select id="book-time" class="form-input">
+                  <option>07:00 PM (Dinner)</option>
+                  <option>07:30 PM (Dinner)</option>
+                  <option>08:00 PM (Dinner)</option>
+                  <option>08:30 PM (Dinner)</option>
+                  <option>09:00 PM (Dinner)</option>
+                  <option>01:00 PM (Lunch)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Number of Guests</label>
+                <select id="book-guests" class="form-input">
+                  <option>2 Guests (Romantic / Duo)</option>
+                  <option>3-4 Guests (Family / Friends)</option>
+                  <option>5-8 Guests (Celebration)</option>
+                  <option>8+ Guests (Party)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Guest Name</label>
+                <input type="text" id="book-name" class="form-input" placeholder="Your full name" required>
+              </div>
+            </div>
+            <button type="submit" class="confirm-booking-btn">
+              <i class="fas fa-check-circle" style="margin-right:6px;"></i> Confirm Reservation
+            </button>
+          </form>
+        </div>
+
+        <!-- Tab 3: Reviews -->
+        <div id="modal-tab-reviews" class="modal-tab-content" style="display:none;">
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div style="padding:16px; border:1px solid var(--border-light); border-radius:var(--radius-md);">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <strong>Ananya Sharma</strong>
+                <span class="rest-rating-badge">5.0 ★</span>
+              </div>
+              <p style="font-size:0.9rem; color:var(--text-secondary);">The ambiance is magical with the purple neon hues. Truffle mushroom risotto is to die for!</p>
+            </div>
+            <div style="padding:16px; border:1px solid var(--border-light); border-radius:var(--radius-md);">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <strong>Vikram Kapoor</strong>
+                <span class="rest-rating-badge">4.8 ★</span>
+              </div>
+              <p style="font-size:0.9rem; color:var(--text-secondary);">Fast delivery, packaging was ultra-clean and hot. Highly recommended for late night cravings.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE-OUT CART DRAWER -->
+  <div id="cart-drawer-backdrop" class="modal-backdrop" style="display:none;" onclick="toggleCartDrawer()"></div>
+  <div class="cart-drawer" id="cart-drawer">
+    <div class="cart-drawer-header">
+      <div class="cart-drawer-title">
+        <i class="fas fa-shopping-bag" style="color:var(--primary);"></i>
+        <span>My Purple Cart</span>
+      </div>
+      <button onclick="toggleCartDrawer()" style="font-size:1.2rem; color:var(--text-muted);"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="cart-items-wrap" id="cart-items-wrap"></div>
+    <div class="cart-bill-summary" id="cart-bill-summary"></div>
+  </div>
+
+  <!-- LIVE ORDER STATUS TRACKER MODAL -->
+  <div class="modal-backdrop" id="order-tracker-modal">
+    <div class="modal-card auth-modal-card" style="text-align:center;">
+      <button class="modal-close-btn" onclick="closeOrderTracker()"><i class="fas fa-times"></i></button>
+      
+      <div style="width:70px; height:70px; border-radius:50%; background:var(--primary-light); color:var(--primary); font-size:2rem; display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
+        <i class="fas fa-motorcycle"></i>
+      </div>
+
+      <h3 id="tracker-status-heading" style="font-size:1.5rem; font-weight:700; margin-bottom:6px;">Order Confirmed</h3>
+      <p id="tracker-status-desc" style="font-size:0.9rem; color:var(--text-muted); margin-bottom:20px;">Estimated delivery in 24 minutes</p>
+
+      <!-- Live Timeline -->
+      <div class="order-status-timeline">
+        <div class="timeline-step active" id="track-step-1">
+          <div class="step-circle"><i class="fas fa-check"></i></div>
+          <div style="text-align:left;">
+            <div class="step-info-title">Order Received</div>
+            <div class="step-info-desc">Paid & acknowledged by kitchen</div>
+          </div>
+        </div>
+
+        <div class="timeline-step" id="track-step-2">
+          <div class="step-circle"><i class="fas fa-fire"></i></div>
+          <div style="text-align:left;">
+            <div class="step-info-title">Kitchen Preparing Food</div>
+            <div class="step-info-desc">Chef is handcrafting your dishes</div>
+          </div>
+        </div>
+
+        <div class="timeline-step" id="track-step-3">
+          <div class="step-circle"><i class="fas fa-route"></i></div>
+          <div style="text-align:left;">
+            <div class="step-info-title">Rider Out for Delivery</div>
+            <div class="step-info-desc">Rahul is 1.2 km away on purple scooter</div>
+          </div>
+        </div>
+
+        <div class="timeline-step" id="track-step-4">
+          <div class="step-circle"><i class="fas fa-home"></i></div>
+          <div style="text-align:left;">
+            <div class="step-info-title">Delivered at Doorstep</div>
+            <div class="step-info-desc">Bon Appétit! Enjoy your meal</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="auth-btn" onclick="closeOrderTracker()">Back to Food Discovery</button>
+    </div>
+  </div>
+
+  <!-- VIDEO THEATER MODAL (FULL EXPERIENCE) -->
+  <div class="modal-backdrop" id="video-theater-modal">
+    <div class="modal-card theater-modal-card">
+      <button class="modal-close-btn" onclick="closeVideoTheater()"><i class="fas fa-times"></i></button>
+
+      <div class="theater-video-box">
+        <video id="theater-video-player" class="theater-video-player" controls autoplay playsinline poster="images/image-1.png">
+          <source id="theater-video-source" src="images/v/12254141_3840_2160_24fps.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="theater-info-box">
+        <div>
+          <span class="story-badge" id="theater-badge"><span class="story-live-dot"></span> Live Dining Spotlight</span>
+          <h3 id="theater-title" style="font-size:1.4rem; font-weight:700; margin:8px 0 4px;">Flaming Wok & Live Sizzler Masterclass</h3>
+          <p id="theater-desc" style="font-size:0.9rem; color:#cbd5e1;">Filmed at Neon Velvet Lounge & Bar</p>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <button class="nav-btn-outline" style="background:var(--primary); color:#fff; border:none; padding:12px 20px;" onclick="closeVideoTheater(); openRestaurantModal('rest-5');">
+            <i class="fas fa-utensils"></i> View Restaurant & Order
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTHENTICATION MODAL (LOGIN / SIGN UP) -->
+  <div class="modal-backdrop" id="auth-modal">
+    <div class="modal-card auth-modal-card">
+      <button class="modal-close-btn" onclick="closeAuthModal()"><i class="fas fa-times"></i></button>
+
+      <div class="auth-header">
+        <h2 class="auth-title" id="auth-modal-title">Log in</h2>
+      </div>
+
+      <div class="auth-input-box">
+        <span class="auth-country-code">+91</span>
+        <input type="tel" id="auth-phone-input" class="search-input" placeholder="Enter phone number" maxlength="10">
+      </div>
+
+      <div id="auth-otp-container" style="display:none; margin-bottom:18px;">
+        <input type="text" id="auth-otp-input" class="form-input" placeholder="Enter 4-digit OTP (e.g. 7892)" style="text-align:center; font-size:1.2rem; letter-spacing:4px;">
+        <button class="auth-btn" style="margin-top:12px;" onclick="handleVerifyOtp()">Verify OTP & Continue</button>
+      </div>
+
+      <button class="auth-btn" id="auth-send-otp-btn" onclick="handleSendOtp()">Send One Time Password</button>
+
+      <div class="auth-divider">or</div>
+
+      <button class="social-auth-btn" onclick="handleVerifyOtp()">
+        <i class="fab fa-google" style="color:#ea4335;"></i> Continue with Google
+      </button>
+      <button class="social-auth-btn" onclick="handleVerifyOtp()">
+        <i class="fas fa-envelope" style="color:var(--primary);"></i> Continue with Email
+      </button>
+
+      <p style="font-size:0.75rem; color:var(--text-muted); text-align:center; margin-top:18px; line-height:1.5;">
+        By continuing, you agree to our <a href="#terms" style="color:var(--primary); text-decoration:underline;">Terms of Service</a> & <a href="#privacy" style="color:var(--primary); text-decoration:underline;">Privacy Policy</a>.
+      </p>
+    </div>
+  </div>
+
+  <!-- DROP TO TOP BUTTON -->
+  <button class="drop-to-top-btn" id="drop-to-top-btn" onclick="scrollToTop()" title="Go to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- FLOATING CART BUTTON (CTA) -->
+  <div class="floating-cart-btn" id="floating-cart-btn" style="display:none;" onclick="toggleCartDrawer()">
+    <i class="fas fa-shopping-bag"></i>
+    <span>View Cart</span>
+    <span class="floating-cart-badge" id="floating-cart-count">0 items</span>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Core JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>
