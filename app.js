@@ -419,6 +419,10 @@ function initTheme() {
   if (themeBtn) {
     themeBtn.innerHTML = state.theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
   }
+  const drawerThemeBtn = document.getElementById('drawer-theme-btn');
+  if (drawerThemeBtn) {
+    drawerThemeBtn.innerHTML = state.theme === 'dark' ? '<i class="fas fa-sun"></i> <span>Light Mode</span>' : '<i class="fas fa-moon"></i> <span>Dark Mode</span>';
+  }
 }
 
 function toggleTheme() {
@@ -1421,6 +1425,53 @@ function setupEventListeners() {
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// Navigation Drawer Toggle Functionality
+function setActiveDrawerLink(targetEl) {
+  document.querySelectorAll('.nav-drawer-item').forEach(link => {
+    link.classList.remove('active');
+  });
+  if (targetEl) {
+    targetEl.classList.add('active');
+  }
+}
+window.setActiveDrawerLink = setActiveDrawerLink;
+
+function toggleNavDrawer(forceState) {
+  const drawer = document.getElementById('nav-drawer');
+  const overlay = document.getElementById('nav-drawer-overlay');
+  const menuBtn = document.getElementById('floating-menu-btn');
+  if (!drawer) return;
+
+  const willOpen = typeof forceState === 'boolean' ? forceState : !drawer.classList.contains('open');
+  if (willOpen) {
+    drawer.classList.add('open');
+    if (overlay) overlay.classList.add('open');
+    if (menuBtn) {
+      menuBtn.setAttribute('aria-expanded', 'true');
+      menuBtn.innerHTML = '<span>Close</span>';
+      menuBtn.title = 'Close Menu';
+    }
+    document.body.style.overflow = 'hidden';
+  } else {
+    drawer.classList.remove('open');
+    if (overlay) overlay.classList.remove('open');
+    if (menuBtn) {
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuBtn.innerHTML = '<span>Menu</span>';
+      menuBtn.title = 'Menu';
+    }
+    document.body.style.overflow = '';
+  }
+}
+window.toggleNavDrawer = toggleNavDrawer;
+
+// Close Drawer on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    toggleNavDrawer(false);
+  }
+});
 
 function switchCategoryTab(mode) {
   state.activeTab = mode;

@@ -56,8 +56,8 @@
           <span>Get the App</span>
         </a>
       </div>
-      <div class="hamburger-menu" onclick="document.getElementById('nav-right').classList.add('active')">
-        <i class="fas fa-bars"></i>
+      <div class="hamburger-menu" onclick="toggleNavDrawer(true)" title="Open Menu" aria-label="Open Navigation">
+        <span>Menu</span>
       </div>
       <div class="hero-nav-right" id="nav-right">
         <button class="close-sidebar-btn" onclick="document.getElementById('nav-right').classList.remove('active')">
@@ -1085,8 +1085,13 @@
   </div>
 
   <!-- DROP TO TOP BUTTON -->
-  <button class="drop-to-top-btn" id="drop-to-top-btn" onclick="scrollToTop()" title="Go to top">
+  <button class="drop-to-top-btn" id="drop-to-top-btn" onclick="scrollToTop()" title="Go to top" aria-label="Drop to top">
     <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- FLOATING MENU BUTTON (BELOW DROP TO TOP BUTTON) -->
+  <button class="floating-menu-btn" id="floating-menu-btn" onclick="toggleNavDrawer()" title="Menu" aria-label="Open navigation menu">
+    <span>Menu</span>
   </button>
 
   <!-- FLOATING CART BUTTON (CTA) -->
@@ -1095,6 +1100,102 @@
     <span>View Cart</span>
     <span class="floating-cart-badge" id="floating-cart-count">0 items</span>
   </div>
+
+  <!-- NAVIGATION DRAWER OVERLAY & MENU DRAWER -->
+  <div class="nav-drawer-overlay" id="nav-drawer-overlay" onclick="toggleNavDrawer(false)"></div>
+  <aside class="nav-drawer" id="nav-drawer" aria-label="Navigation Menu">
+    <div class="nav-drawer-header">
+      <div class="nav-drawer-brand">
+        <img src="favicon.svg" alt="Purpldine Logo" class="nav-drawer-logo">
+        <span>purpldine<span class="dot">.</span></span>
+      </div>
+      <button class="nav-drawer-close" onclick="toggleNavDrawer(false)" aria-label="Close Navigation Menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="nav-drawer-content">
+      <div class="nav-drawer-group-label">Explore & Discover</div>
+      <ul class="nav-drawer-list">
+        <li>
+          <a href="#" class="nav-drawer-item active" onclick="setActiveDrawerLink(this); toggleNavDrawer(false); scrollToTop();">
+            <i class="fas fa-house"></i>
+            <span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="#restaurant-list-section" class="nav-drawer-item" onclick="setActiveDrawerLink(this); toggleNavDrawer(false); switchCategoryTab('delivery');">
+            <i class="fas fa-motorcycle"></i>
+            <span>Order Online</span>
+          </a>
+        </li>
+        <li>
+          <a href="#restaurant-list-section" class="nav-drawer-item" onclick="setActiveDrawerLink(this); toggleNavDrawer(false); switchCategoryTab('dining');">
+            <i class="fas fa-utensils"></i>
+            <span>Dining Out</span>
+          </a>
+        </li>
+        <li>
+          <a href="#restaurant-list-section" class="nav-drawer-item" onclick="setActiveDrawerLink(this); toggleNavDrawer(false); switchCategoryTab('nightlife');">
+            <i class="fas fa-glass-cheers"></i>
+            <span>Nightlife & Clubs</span>
+          </a>
+        </li>
+        <li>
+          <a href="#collections-grid" class="nav-drawer-item" onclick="setActiveDrawerLink(this); toggleNavDrawer(false);">
+            <i class="fas fa-layer-group"></i>
+            <span>Curated Collections</span>
+          </a>
+        </li>
+        <li>
+          <a href="#stories-grid" class="nav-drawer-item" onclick="setActiveDrawerLink(this); toggleNavDrawer(false);">
+            <i class="fas fa-play-circle"></i>
+            <span>Video Stories</span>
+          </a>
+        </li>
+        <li>
+          <a href="#app-section" class="nav-drawer-item" onclick="setActiveDrawerLink(this); toggleNavDrawer(false);">
+            <i class="fas fa-mobile-screen-button"></i>
+            <span>Get the App</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="nav-drawer-divider"></div>
+      
+      <div class="nav-drawer-group-label">Business & Partners</div>
+      <ul class="nav-drawer-list">
+        <li>
+          <a href="#investors-section" class="nav-drawer-item" onclick="setActiveDrawerLink(this); toggleNavDrawer(false);">
+            <i class="fas fa-chart-line"></i>
+            <span>Investor Relations</span>
+          </a>
+        </li>
+        <li>
+          <a href="#add-restaurant-section" class="nav-drawer-item" onclick="setActiveDrawerLink(this); toggleNavDrawer(false);">
+            <i class="fas fa-store"></i>
+            <span>Add Restaurant</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="nav-drawer-actions">
+        <button class="nav-drawer-btn btn-primary" onclick="toggleNavDrawer(false); openAuthModal('login');">
+          <i class="fas fa-sign-in-alt"></i> Log In
+        </button>
+        <button class="nav-drawer-btn btn-secondary" onclick="toggleNavDrawer(false); openAuthModal('signup');">
+          <i class="fas fa-user-plus"></i> Sign Up
+        </button>
+      </div>
+
+      <div class="nav-drawer-theme-box">
+        <span>Appearance</span>
+        <button class="nav-drawer-theme-toggle" onclick="toggleTheme()" id="drawer-theme-btn" title="Toggle Dark/Light Mode">
+          <i class="fas fa-moon"></i> <span>Dark Mode</span>
+        </button>
+      </div>
+    </div>
+  </aside>
 
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div class="toast-container" id="toast-container"></div>
